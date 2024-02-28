@@ -1,0 +1,38 @@
+pipeline {
+    agent {
+        label {
+            label "slave-1"
+            customWorkspace "/mnt/docker-vol"
+        }
+    }
+    stages {
+        stage ("remove ws, old volume, images & containers") {
+            steps {
+                sh '''
+                    #!/bin/bash
+                    sudo service docker start
+                    sudo docker container rm -f server-httpd-3
+                    sudo docker volume rm vol-3
+                    sudo docker system prune -af
+                    sudo rm -rf 24Q3
+                '''
+            }
+        }
+        stage ("create volume") {
+          steps {
+            sh "sudo docker volume create vol-3"
+          }
+        }
+        stage ("create container") {
+            steps {
+                sh "sudo docker run -itdp 83:80 -v vol-3:/usr/local/apache2/htdocs/ --name server-httpd-3 httpd"
+            }
+        }
+        stage ("deploy or git clone") {
+            steps {
+                sh "sudo git clone https://github.com/vinodhalsangi/assignments-docker-1.git 24Q3 -b 24Q3"
+                sh "sudo mv 24Q3/* /var/lib/docker/volumes/vol-3/_data/"
+            }
+        }
+    }
+}
