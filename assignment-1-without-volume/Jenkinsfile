@@ -1,0 +1,37 @@
+pipeline {
+    agent {
+        label "slave-1"
+    }
+    stages {
+        stage ("remove old images & containers") {
+            steps {
+                sh '''
+                    #!/bin/bash
+                    sudo service docker start
+                    sudo docker container rm -f server-httpd-3
+                    sudo docker system prune -af
+                '''
+            }
+        }
+        stage ("create container") {
+            steps {
+                sh "sudo docker run -itdp 83:80 --name server-httpd-3 httpd"
+            }
+        }
+        stage ("git clone") {
+            steps {
+                sh "sudo git clone https://github.com/vinodhalsangi/Assignments-Docker.git /mnt/docker-vol/24Q3 -b 24Q3"
+            }
+        }
+        stage ("deploy in docker container") {
+            steps {
+                sh "sudo docker cp /mnt/docker-vol/24Q3/index.html server-httpd-3:/usr/local/apache2/htdocs/"
+            }
+        }
+        stage ("remove clone") {
+            steps {
+                sh "sudo rm -rf /mnt/docker-vol/24Q3"
+            }
+        }
+    }
+}
