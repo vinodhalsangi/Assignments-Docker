@@ -2,7 +2,7 @@ pipeline {
     agent {
         label {
             label "slave-1"
-            customWorkspace "/mnt/docker-vol"
+            customWorkspace "/mnt/docker-vol/assignment-1-with-local-volume"
         }
     }
     stages {
