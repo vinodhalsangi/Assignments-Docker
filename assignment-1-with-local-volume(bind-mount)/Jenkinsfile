@@ -19,7 +19,7 @@ pipeline {
         }
         stage ("create container") {
             steps {
-                sh "sudo docker run -itdp 83:80 -v /mnt/docker-vol/24Q3:/usr/local/apache2/htdocs/ --name server-httpd-3 httpd"
+                sh "sudo docker run -itdp 83:80 -v /mnt/docker-vol/assignment-1-with-local-volume/24Q3:/usr/local/apache2/htdocs/ --name server-httpd-3 httpd"
             }
         }
         stage ("deploy or git clone") {
