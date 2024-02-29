@@ -30,7 +30,7 @@ pipeline {
         }
         stage ("deploy or git clone") {
             steps {
-                sh "sudo git clone https://github.com/vinodhalsangi/assignments-docker-1.git 24Q1 -b 24Q1"
+                sh "sudo git clone https://github.com/vinodhalsangi/assignments-docker.git 24Q1 -b 24Q1"
                 sh "sudo mv 24Q1/* /var/lib/docker/volumes/vol-1/_data/"
             }
         }
