@@ -2,30 +2,22 @@ pipeline {
     agent {
         label {
             label "slave-1"
-            customWorkspace "/mnt/docker-vol/assignment-1-with-local-volume/24Q1"
         }
     }
     stages {
-        stage ("remove ws, old volume, images & containers") {
+        stage ("old volume, images & containers") {
             steps {
                 sh '''
                     #!/bin/bash
-                    sudo rm -rf *
                     sudo service docker start
                     sudo docker container rm -f server-httpd-1
                     sudo docker system prune -af
-                    sudo rm -rf /mnt/docker-vol/24Q1
                 '''
             }
         }
-        stage ("create container") {
+        stage ("create container with deploy") {
             steps {
-                sh "sudo docker run -itdp 81:80 -v /mnt/docker-vol/24Q1:/usr/local/apache2/htdocs/ --name server-httpd-1 httpd"
-            }
-        }
-        stage ("deploy or git clone") {
-            steps {
-                sh "sudo git clone https://github.com/vinodhalsangi/assignments-docker.git /mnt/docker-vol/24Q1 -b 24Q1"
+                sh "sudo docker run -itdp 81:80 -v .:/usr/local/apache2/htdocs/ --name server-httpd-1 httpd"
             }
         }
     }
