@@ -17,7 +17,7 @@ pipeline {
         }
         stage ("create container with deploy") {
             steps {
-                sh "sudo docker run -itdp 81:80 -v ../:/usr/local/apache2/htdocs/ --name server-httpd-1 httpd"
+                sh "sudo docker run -itdp 81:80 -v $WORKSPACE:/usr/local/apache2/htdocs/ --name server-httpd-1 httpd"
             }
         }
     }
