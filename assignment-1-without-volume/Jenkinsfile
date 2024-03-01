@@ -2,7 +2,6 @@ pipeline {
     agent {
         label {
             label "slave-1"
-            customWorkspace "/mnt/docker-vol/assignment-1-without-volume/24Q3"
         }
     }
     stages {
@@ -13,8 +12,6 @@ pipeline {
                     sudo service docker start
                     sudo docker container rm -f server-httpd-3
                     sudo docker system prune -af
-                    sudo rm -rf *
-                    sudo rm -rf /mnt/docker-vol/24Q3
                 '''
             }
         }
@@ -23,19 +20,9 @@ pipeline {
                 sh "sudo docker run -itdp 83:80 --name server-httpd-3 httpd"
             }
         }
-        stage ("git clone") {
-            steps {
-                sh "sudo git clone https://github.com/vinodhalsangi/Assignments-Docker.git /mnt/docker-vol/24Q3 -b 24Q3"
-            }
-        }
         stage ("deploy in docker container") {
             steps {
-                sh "sudo docker cp /mnt/docker-vol/24Q3/index.html server-httpd-3:/usr/local/apache2/htdocs/"
-            }
-        }
-        stage ("remove clone") {
-            steps {
-                sh "sudo rm -rf /mnt/docker-vol/24Q3"
+                sh "sudo docker cp index.html server-httpd-3:/usr/local/apache2/htdocs/"
             }
         }
     }
