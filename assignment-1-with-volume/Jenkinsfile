@@ -6,7 +6,8 @@ pipeline {
     }
     stages {
         stage ("old volume, images & containers") {
-            steps {
+            steps { 
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                 sh '''
                     #!/bin/bash
                     sudo service docker start
@@ -14,6 +15,7 @@ pipeline {
                     sudo docker volume rm vol-1
                     sudo docker system prune -af
                 '''
+                }
             }
         }
         stage ("create volume") {
