@@ -14,6 +14,7 @@ pipeline {
                 sh '''
                     sudo rm -rf *
                     sudo rm -rf /mnt/docker-vol/hello-world
+                    sudo service docker start
                     sudo docker rm -f server-hello-world
                 '''
             }
