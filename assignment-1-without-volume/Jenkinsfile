@@ -3,6 +3,7 @@ pipeline {
         label {
             label "slave-1"
             customWorkspace "/mnt/docker-vol/assignment-1-without-volume/24Q3"
+        }
     }
     stages {
         stage ("remove old images & containers") {
