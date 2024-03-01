@@ -2,7 +2,7 @@ pipeline {
     agent {
         label {
             label "slave-1"
-            customWorkspace "/mnt/docker-vol/assignment-1-with-volume"
+            customWorkspace "/mnt/docker-vol/assignment-1-with-volume/24Q3"
         }
     }
     stages {
@@ -14,7 +14,7 @@ pipeline {
                     sudo docker container rm -f server-httpd-3
                     sudo docker volume rm vol-3
                     sudo docker system prune -af
-                    sudo rm -rf 24Q3
+                    sudo rm -rf *
                 '''
             }
         }
