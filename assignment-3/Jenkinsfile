@@ -16,23 +16,27 @@ pipeline {
 		}
 		stage ("clone") {
 			steps {
-				sh "sudo git clone https://github.com/vinodhalsangi/game-of-life.git $WORKSPACE -b master"
+				sh "sudo git clone https://github.com/vinodhalsangi/game-of-life.git -b master"
 			}
 		}
 		stage ("compile & package") {
 			steps {
-				sh "mvn clean install"
+				dir ("game-of-life") {
+					sh "mvn clean install"
+				}
 			}
 		}
 		stage ("create container") {
 			steps {
-				sh "sudo docker build -t ubuntu-tomcat-1 assignment-3/."
-				sh "sudo docker run -itdp 8080:8080 --name server-tomcat-1 ubuntu-tomcat-1"
+				dir ("game-of-life") {
+					sh "sudo docker build -t ubuntu-tomcat-1 assignment-3/."
+					sh "sudo docker run -itdp 8080:8080 --name server-tomcat-1 ubuntu-tomcat-1"
+				}
 			}
 		}
 		stage ("deploy") {
 			steps {
-				sh "sudo docker cp gameoflife-web/target/gameoflife.war server-tomcat-1:/usr/local/tomcat/webapps/"
+				sh "sudo docker cp game-of-life/gameoflife-web/target/gameoflife.war server-tomcat-1:/usr/local/tomcat/webapps/"
 				sh "sudo rm -rf *"
 		  	}
 	  	}
