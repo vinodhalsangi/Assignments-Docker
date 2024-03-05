@@ -11,7 +11,7 @@ pipeline {
                 sh '''
                     sudo rm -rf *
                     sudo rm -rf hello-world
-                    sudo docker rm -f server-hello-world
+                    sudo docker rm $(docker ps -a -q)
                     sudo docker system prune -af
                 '''
             }
