@@ -16,19 +16,19 @@ pipeline {
 		}
 		stage ("clone") {
 			steps {
-				sh "sudo git clone https://github.com/vinodhalsangi/game-of-life.git -b master"
+				sh "sudo git clone https://github.com/vinodhalsangi/hello-world.git"
 			}
 		}
 		stage ("compile & package") {
 			steps {
-				dir ("game-of-life") {
+				dir ("hello-world") {
 					sh "mvn clean install"
 				}
 			}
 		}
 		stage ("create container") {
 			steps {
-				dir ("game-of-life") {
+				dir ("hello-world") {
 					sh "sudo docker build -t ubuntu-tomcat-1 assignment-3/."
 					sh "sudo docker run -itdp 8080:8080 --name server-tomcat-1 ubuntu-tomcat-1"
 				}
@@ -36,7 +36,7 @@ pipeline {
 		}
 		stage ("deploy") {
 			steps {
-				sh "sudo docker cp game-of-life/gameoflife-web/target/gameoflife.war server-tomcat-1:/usr/local/tomcat/webapps/"
+				sh "sudo docker cp hello-world/target/hello-world-1.0.-SNAPSHOT.war server-tomcat-1:/usr/local/tomcat/webapps/"
 				sh "sudo rm -rf *"
 		  	}
 	  	}
