@@ -11,7 +11,7 @@ pipeline {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                 sh '''
                     sudo rm -rf *
-                    sudo rm -rf hello-world
+                    sudo service docker start
                     sudo docker stop $(sudo docker ps -a -q)
                     sudo docker system prune -af
                 '''
