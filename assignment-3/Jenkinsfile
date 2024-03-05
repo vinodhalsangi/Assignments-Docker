@@ -9,7 +9,7 @@ pipeline {
 		stage ("clean") {
 			steps {
 				catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-				sh "sudo docker rm -f server-tomcat-1"
+				sudo docker stop $(sudo docker ps -a -q)
 				sh "sudo docker system prune -af"
 				sh "sudo rm -rf hello-world"
 				}
