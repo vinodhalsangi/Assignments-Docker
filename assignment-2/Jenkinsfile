@@ -8,12 +8,14 @@ pipeline {
     stages {
         stage ("clean") {
             steps {
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                 sh '''
                     sudo rm -rf *
                     sudo rm -rf hello-world
                     sudo docker stop $(sudo docker ps -a -q)
                     sudo docker system prune -af
                 '''
+                }
             }
         }
         stage ("git clone") {
