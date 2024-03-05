@@ -22,6 +22,7 @@ pipeline {
 		stage ("compile & package") {
 			steps {
 				dir ("hello-world") {
+					sh "sudo chmod -R 777 ."
 					sh "mvn clean install"
 				}
 			}
