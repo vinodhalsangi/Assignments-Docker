@@ -9,7 +9,6 @@ pipeline {
 		stage ("clean") {
 			steps {
 				catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-				sh "sudo rm -rf gameoflife"
 				sh "sudo docker rm -f server-tomcat-1"
 				sh "sudo docker system prune -af"
 				}
@@ -17,7 +16,7 @@ pipeline {
 		}
 		stage ("clone") {
 			steps {
-				sh "sudo git clone https://github.com/vinodhalsangi/game-of-life.git gameoflife -b master"
+				sh "sudo git clone https://github.com/vinodhalsangi/game-of-life.git -b master"
 			}
 		}
 		stage ("compile & package") {
@@ -33,8 +32,9 @@ pipeline {
 		}
 		stage ("deploy") {
 			steps {
-				sh "sudo docker cp gameoflife/gameoflife-web/target/gameoflife.war server-tomcat-1:/usr/local/tomcat/webapps/"
-		  }
-	  }
-  }
+				sh "sudo docker cp gameoflife-web/target/gameoflife.war server-tomcat-1:/usr/local/tomcat/webapps/"
+				sh "sudo rm -rf *"
+		  	}
+	  	}
+  	}
 }
