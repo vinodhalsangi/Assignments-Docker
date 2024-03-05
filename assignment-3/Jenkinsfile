@@ -20,7 +20,7 @@ pipeline {
 		}
 		stage ("compile & package") {
 			steps {
-				sh "sudo mvn clean install"
+				sh "mvn clean install"
 			}
 		}
 		stage (create container) {
