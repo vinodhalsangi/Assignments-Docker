@@ -38,7 +38,7 @@ pipeline {
 		}
 		stage ("deploy") {
 			steps {
-				sh "sudo docker cp hello-world/target/hello-world-1.0.-SNAPSHOT.war server-tomcat-1:/usr/local/tomcat/webapps/"
+				sh "sudo docker cp hello-world/target/hello-world-1.0-SNAPSHOT.war server-tomcat-1:/usr/local/tomcat/webapps/"
 				sh "sudo rm -rf *"
 		  	}
 	  	}
