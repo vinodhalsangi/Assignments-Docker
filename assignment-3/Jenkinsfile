@@ -8,9 +8,11 @@ pipeline {
 	stages {
 		stage ("clean") {
 			steps {
-				sh "sudo rm -rf gamepflife"
+				catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+				sh "sudo rm -rf gameoflife"
 				sh "sudo docker rm -f server-tomcat-1"
 				sh "sudo docker system prune -af"
+				}
 			}
 		}
 		stage ("clone") {
