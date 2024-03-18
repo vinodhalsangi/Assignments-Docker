@@ -9,7 +9,7 @@ pipeline {
 		stage ("clean") {
 			steps {
 				catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-				sh "service docker start"
+				sh "sudo service docker start"
 				sh "sudo docker stop ${sudo docker ps -a -q}"
 				sh "sudo docker system prune -af"
 				sh "sudo rm -rf hello-world"
